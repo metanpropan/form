@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <h1>Регистрация пользователя</h1>
+            <section>
+                <p>Введите логин</p>
+                <p v-if="visible" class="valid">{{this.textValidation}}</p>
+                <!-- <p v-else class="valid">Адрес должен содержать @</p> -->
+                <input type="email" v-model="login" placeholder="form@mail.ru" required >
+            </section>
+            <section>
+                <p>Введите пароль</p>
+                <p v-if="visiblePassword" class="valid">{{this.textValidationPass}}</p>
+                <input type="password" v-model="password" placeholder="Введите пароль"  required>
+            </section>
+            <section>
+                <button v-on:click="authorization">Регистрация</button>
+            </section>
+        </form>
+    </div>
+    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                login: '',
+                password: '',
+                textValidation: '',
+                textValidationPass: ''
+                
+            },
+            props: {
+                visible: false,
+                visiblePassword: false
+            },
+            methods: {  
+                authorization () {
+                    var lowerCaseLetters = /[a-z]/g;
+                    var upperCaseLetters = /[A-Z]/g;
+                    var numbers = /[0-9]/g;
+                    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+                    var email = /[@]/g;
+                    // Валидация логина
+                        if (this.login.match('@')) { 
+                            this.visible = false
+                        }
+                        else {
+                            this.visible = true
+                            this.textValidation = 'Адрес должен содержать @'
+                        }
+                        if (this.login.length - this.login.indexOf('@')==1) {
+                            
+                                    this.textValidation = 'Введите часть адреса после @ (например @mail)'
+                                    this.visible = true
+                        }
+                    
+                    // for (let index = 0; index < this.login.length; index++) {
+                    //     if (this.login[index] != '@') { 
+                    //         this.visible = true
+                    //         this.textValidation = 'Адрес должен содержать @'
+                    //     }
+                    //     else if (this.login[index] == '@' && (this.login.length - this.login.indexOf('@'))==1) {
+                            
+                    //         this.textValidation = 'Введите часть адреса после @ (например @mail)'
+                    //         this.visible = true
+                    //     }
+                    //     else {
+                    //         this.visible = false
+                    //     }
+                    // }
+
+
+                    // Валидация пароля
+                    if (this.password.match(format) && this.password.match(lowerCaseLetters) && this.password.match(upperCaseLetters) && this.password.match(numbers) && this.password.length > 6)  {
+                            this.visiblePassword = false
+                            console.log(this.password)
+                        }
+                        else {
+                            this.visiblePassword = true
+                            this.textValidationPass = 'не валидный пароль'
+                            console.log(this.password)
+                        }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
