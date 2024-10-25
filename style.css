@@ -2,10 +2,10 @@
     color: red;
 }
 
-input:invalid {
+/* input:invalid {
     background-color: rgba(255, 0, 0, 0.104);
   }
  
   input:valid {
     border: 2px solid green;
-  }
+  } */
